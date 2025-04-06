@@ -19,7 +19,7 @@ const Hero = () => {
       setDateValue(JSON.parse(savedDateValue));
     }
     if (savedGetData !== null) {
-      setGetData(JSON.parse(savedGetData)); // Восстанавливаем getData
+      setGetData(JSON.parse(savedGetData));
     }
   }, []);
 
@@ -56,7 +56,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="bg-[#1a1a2e]">
+    <section className="bg-[#1a1a2e] min-h-screen">
       <div className="pt-24 flex flex-col items-center">
         <h1 className="text-center text-[2.19rem] leading-9 text-[#B0A8FF] font-sans text-lg tracking-wide">
           Щоденний космос
