@@ -4,7 +4,9 @@ import Image from "next/image";
 
 const Hero = () => {
   const [dateControl, setDateControl] = useState(false);
-  const [dateValue, setDateValue] = useState("Дата не обрана");
+  const [dateValue, setDateValue] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [getData, setGetData] = useState(null);
 
   useEffect(() => {
@@ -15,11 +17,22 @@ const Hero = () => {
     if (savedDateControl) {
       setDateControl(JSON.parse(savedDateControl));
     }
+
+    let newDateValue = new Date().toISOString().split("T")[0]; // Текущая дата по умолчанию
     if (savedDateValue !== null) {
-      setDateValue(JSON.parse(savedDateValue));
+      const parsedDateValue = JSON.parse(savedDateValue);
+      newDateValue =
+        typeof parsedDateValue === "string" &&
+        parsedDateValue.match(/^\d{4}-\d{2}-\d{2}$/)
+          ? parsedDateValue
+          : newDateValue;
     }
+    setDateValue(newDateValue);
+
     if (savedGetData !== null) {
       setGetData(JSON.parse(savedGetData));
+    } else {
+      fetchData(newDateValue); // Используем newDateValue вместо dateValue
     }
   }, []);
 
@@ -75,7 +88,7 @@ const Hero = () => {
                 {dateValue}
               </button>
               <input
-                value={dateValue === "Дата не обрана" ? "" : dateValue}
+                value={dateValue}
                 type="date"
                 onChange={handleDateChange}
                 className={
