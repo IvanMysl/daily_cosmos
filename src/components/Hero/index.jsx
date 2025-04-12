@@ -60,7 +60,7 @@ const Hero = () => {
 
   const fetchData = async (date) => {
     const response = await fetch(
-      `https://api.nasa.gov/planetary/apod?api_key=b8Op7D5FBhw54eFrdh5DhlrIR5ydUBbfgD6hTWtH&date=${date}`
+      `https://api.nasa.gov/planetary/apod?api_key=${process.env.NEXT_PUBLIC_API_KEY}&date=${date}`
     );
     const result = await response.json();
     setGetData(result);
