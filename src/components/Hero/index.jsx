@@ -18,7 +18,7 @@ const Hero = () => {
       setDateControl(JSON.parse(savedDateControl));
     }
 
-    let newDateValue = new Date().toISOString().split("T")[0]; // Текущая дата по умолчанию
+    let newDateValue = new Date().toISOString().split("T")[0];
     if (savedDateValue !== null) {
       const parsedDateValue = JSON.parse(savedDateValue);
       newDateValue =
@@ -32,7 +32,7 @@ const Hero = () => {
     if (savedGetData !== null) {
       setGetData(JSON.parse(savedGetData));
     } else {
-      fetchData(newDateValue); // Используем newDateValue вместо dateValue
+      fetchData(newDateValue);
     }
   }, []);
 
@@ -70,7 +70,7 @@ const Hero = () => {
 
   return (
     <section className="bg-[#1a1a2e] min-h-screen">
-      <div className="pt-24 flex flex-col items-center">
+      <div className="pt-24 flex flex-col items-center pr-2 pl-2">
         <h1 className="text-center text-[2.19rem] leading-9 text-[#B0A8FF] font-sans text-lg tracking-wide">
           Щоденний космос
         </h1>
@@ -78,7 +78,7 @@ const Hero = () => {
           Відкрийте для себе красу Всесвіту з щоденними зображеннями від Nasa
         </p>
         <div className="max-w-[800px] w-full border border-white rounded-[6px] p-4 mb-10">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center h-15">
             <h2 className="text-[#fff] text-lg">Астрономічне зображення дня</h2>
             <div>
               <button
@@ -89,11 +89,13 @@ const Hero = () => {
               </button>
               <input
                 value={dateValue}
+                max={new Date().toISOString().split("T")[0]}
                 type="date"
                 onChange={handleDateChange}
+                onClick={(event) => event.target.showPicker()}
                 className={
                   dateControl
-                    ? "text-[#fff] border border-white rounded-[6px] w-[140px] h-8 flex justify-center"
+                    ? "text-[#fff] border border-white rounded-[6px] w-[140px] h-8 flex justify-center cursor-pointer"
                     : "hidden"
                 }
               />
