@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Hero = () => {
   const [dateControl, setDateControl] = useState(false);
-  const [mainButtonShow, setMainButtonShow] = useState(true);
+  const [mainButtonShow, setMainButtonShow] = useState(false);
 
   const [dateValue, setDateValue] = useState(
     new Date().toISOString().split("T")[0]
@@ -15,8 +15,6 @@ const Hero = () => {
     const savedDateControl = localStorage.getItem("dateControl");
     const savedDateValue = localStorage.getItem("dateValue");
     const savedGetData = localStorage.getItem("getData");
-    const savedMainButtonShow = localStorage.getItem("mainButtonShow");
-
     if (savedDateControl !== null) {
       setDateControl(JSON.parse(savedDateControl));
     }
@@ -37,9 +35,6 @@ const Hero = () => {
     } else {
       fetchData(newDateValue);
     }
-    if (savedMainButtonShow !== null) {
-      setMainButtonShow(JSON.parse(savedMainButtonShow));
-    }
   }, []);
 
   useEffect(() => {
@@ -52,9 +47,6 @@ const Hero = () => {
   useEffect(() => {
     localStorage.setItem("getData", JSON.stringify(getData));
   }, [getData]);
-  useEffect(() => {
-    localStorage.setItem("mainButtonShow", JSON.stringify(mainButtonShow));
-  }, [mainButtonShow]);
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     setDateControl(!dateControl);
@@ -99,7 +91,7 @@ const Hero = () => {
       <div
         className={
           mainButtonShow
-            ? "pt-24 flex flex-col items-center pr-2 pl-2"
+           ? "pt-24 flex flex-col items-center pr-2 pl-2"
             : "hidden"
         }
       >
