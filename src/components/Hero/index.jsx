@@ -4,6 +4,8 @@ import Image from "next/image";
 
 const Hero = () => {
   const [dateControl, setDateControl] = useState(false);
+  const [mainButtonShow, setMainButtonShow] = useState(true);
+
   const [dateValue, setDateValue] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -13,8 +15,9 @@ const Hero = () => {
     const savedDateControl = localStorage.getItem("dateControl");
     const savedDateValue = localStorage.getItem("dateValue");
     const savedGetData = localStorage.getItem("getData");
+    const savedMainButtonShow = localStorage.getItem("mainButtonShow");
 
-    if (savedDateControl) {
+    if (savedDateControl !== null) {
       setDateControl(JSON.parse(savedDateControl));
     }
 
@@ -34,6 +37,9 @@ const Hero = () => {
     } else {
       fetchData(newDateValue);
     }
+    if (savedMainButtonShow !== null) {
+      setMainButtonShow(JSON.parse(savedMainButtonShow));
+    }
   }, []);
 
   useEffect(() => {
@@ -46,7 +52,9 @@ const Hero = () => {
   useEffect(() => {
     localStorage.setItem("getData", JSON.stringify(getData));
   }, [getData]);
-
+  useEffect(() => {
+    localStorage.setItem("mainButtonShow", JSON.stringify(mainButtonShow));
+  }, [mainButtonShow]);
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
     setDateControl(!dateControl);
@@ -56,6 +64,9 @@ const Hero = () => {
 
   const showDate = () => {
     setDateControl(!dateControl);
+  };
+  const mainShow = () => {
+    setMainButtonShow(!mainButtonShow);
   };
 
   const fetchData = async (date) => {
@@ -67,10 +78,31 @@ const Hero = () => {
     console.log(getData);
     console.log(date);
   };
-
   return (
     <section className="bg-[#1a1a2e] min-h-screen">
-      <div className="pt-24 flex flex-col items-center pr-2 pl-2">
+      <div
+        className={`flex flex-col items-center justify-center min-h-screen bg-[#1a1a2e] ${
+          !mainButtonShow ? "" : "hidden"
+        }`}
+      >
+        <p className="text-white text-lg text-center max-w-md mx-4 mb-6">
+          Відкрийте красу космосу! Щоденні зображення та історії від NASA
+          чекають на вас.
+        </p>
+        <button
+          onClick={mainShow}
+          className="cursor-pointer px-6 py-2 bg-[#3aafa9] text-white rounded-lg hover:bg-[#5bc0de] transition-colors"
+        >
+          Далі
+        </button>
+      </div>
+      <div
+        className={
+          mainButtonShow
+            ? "pt-24 flex flex-col items-center pr-2 pl-2"
+            : "hidden"
+        }
+      >
         <h1 className="text-center text-[2.19rem] leading-9 text-[#B0A8FF] font-sans text-lg tracking-wide">
           Щоденний космос
         </h1>
@@ -121,6 +153,12 @@ const Hero = () => {
             )}
           </div>
         </div>
+        <button
+          onClick={mainShow}
+          className="text-[#fff] cursor-pointer bg-[#3aafa9] hover:border hover:border-white rounded-[6px] w-[180px] h-10 text-center mb-10"
+        >
+          Назад
+        </button>
       </div>
     </section>
   );
